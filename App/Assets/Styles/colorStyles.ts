@@ -1,0 +1,1 @@
+export const primaryGrey:string = '#E3E3E3';

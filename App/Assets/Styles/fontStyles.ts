@@ -8,5 +8,10 @@ export const globalFontStyles = {
     fontSize: 24,
     color: "white",
     fontWeight:'500',
+  },
+  titleText:{
+    fontSize: 16,
+    color: "black",
+    fontWeight:'bold',
   }
 };
