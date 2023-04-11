@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Dimensions, SafeAreaView, View } from "react-native";
+import { Dimensions, ImageBackground, SafeAreaView, View } from "react-native";
 import { Text, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
@@ -29,6 +29,7 @@ export default Layout;
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     // paddingHorizontal: 20,
     minHeight: Dimensions.get("screen").height,
     minWidth: Dimensions.get("screen").width,

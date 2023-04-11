@@ -4,9 +4,12 @@ import TextC from "../Core/TextC";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Item } from "./BottomSheetModal";
 import { primaryGrey } from "../../../Assets/Styles/colorStyles";
+import { List } from "../../../Library/Utils/ApiModels/MainApiModel";
+import { formatDateTime } from "../../../Library/Utils/dateFormatter/formatFate";
+import {Image} from 'expo-image'
 
 interface WeatherBottomItemProps {
-  item: Item;
+  item: List;
 }
 
 const WeatherBottomItem = (props: WeatherBottomItemProps) => {
@@ -29,16 +32,20 @@ const WeatherBottomItem = (props: WeatherBottomItemProps) => {
       alignItems: "center",
       marginRight: 10,
       borderRadius: 20,
-      backgroundColor: colorSelector(props.item.weather),
+      backgroundColor: colorSelector(props.item.main.temp),
       padding: 10,
     },
   });
-
+  let link: string = `http://openweathermap.org/img/w/${props.item.weather[0].icon}.png`
   return (
     <View style={itemStyle.itemContainer}>
-      <Ionicons name="sunny-outline" size={38} color="white" />
-      <TextC style={styles.weatherDate}>{props.item.title}</TextC>
-      <TextC style={styles.weatherText}>{props.item.weather}°</TextC>
+      <Image
+      style={styles.image}
+      source={link}
+      transition={1000}
+    ></Image>
+      <TextC style={styles.weatherDate}>{formatDateTime(props.item.dt_txt)}</TextC>
+      <TextC style={styles.weatherText}>{Math.floor(props.item.main.temp)}°</TextC>
     </View>
   );
 };
@@ -47,15 +54,20 @@ export default WeatherBottomItem;
 
 const styles = StyleSheet.create({
   weatherDate: {
-    fontSize: 12,
+    fontSize: 16,
     marginBottom: 8,
     marginTop: 10,
     color:'white'
   },
   weatherText: {
     color:'white',
-    fontSize: 40,
+    fontSize: 34,
     fontWeight: "400",
     marginLeft: 2,
   },
+  image:{
+    width:40,
+    height:40,
+    marginBottom:-10
+  }
 });
