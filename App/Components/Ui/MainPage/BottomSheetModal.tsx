@@ -42,9 +42,9 @@ const BottomSheetModal = (props: BottomSheetModalProps) => {
       >
         Weather for 3 days
       </TextC>
-      <View style={{ paddingTop: "5%" }}>
+      <View style={{ paddingTop: "5%", minHeight:'70%'}}>
         <FlatList
-          style={{}}
+          style={{ maxHeight:'100%'}}
           data={props.data.list}
           renderItem={({ item }) => renderWeatherItem(item)}
           horizontal
