@@ -1,60 +1,25 @@
 import * as React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { View, StyleSheet, Alert } from "react-native";
+import {useRef, useState } from "react";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import BottomSheetModal from "../../Ui/MainPage/BottomSheetModal";
-import { getData } from "../../../Network/Actions";
-import {
-  WeatherDateHourly,
-  WeatherRequest,
-} from "../../../Library/Utils/ApiModels/MainApiModel";
-import { API_KEY } from "../../../Network/env";
 import Loader from "../../Ui/Core/Loader";
 import PositionSwitch from "../../Ui/MainPage/PositionSwitchContainer";
 import WeatherContainer from "../../Ui/MainPage/WeatherContainer";
 import HorizontalWeather from "../../Ui/MainPage/HorizontalWeather";
 import AdditionalInfo from "../../Ui/MainPage/AdittionalInfo";
+import { UseGetWeatherOutput, useGetWeather } from "../../../Library/Hooks/useGetWeather";
 
 interface MainPageProps {}
 
 const MainPage = (props: MainPageProps) => {
-  useEffect(() => {
-    getWeatherData();
-  }, []);
+  let [isLoading, weatherData, weatherDataHourly, error]:UseGetWeatherOutput = useGetWeather();
 
-  const [weatherData, setWeatherData] = useState<WeatherRequest>(
-    {} as WeatherRequest
-  );
-
-  const [weatherDataHourly, setWeatherDataHourly] = useState<WeatherDateHourly>(
-    {} as WeatherDateHourly
-  );
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const snapPoints = ["35%", "36%"];
   const [isBigView, setIsBigView] = useState(true);
 
-  const link = `https://api.openweathermap.org/data/2.5/weather?q=Chernihiv&units=metric&appid=${API_KEY}`;
-
-  const [weatherByHourLink, setWeatherByHourLink] = useState(
-    `https://api.openweathermap.org/data/2.5/forecast?q=Chernihiv&units=metric&appid=${API_KEY}`
-  );
-
-  useEffect(() => {}, [weatherDataHourly]);
-
-  const getWeatherData = async () => {
-    setIsLoading(true);
-    try {
-      await getData(link).then((res) => setWeatherData(res));
-      await getData(weatherByHourLink).then((res) => setWeatherDataHourly(res));
-    } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return isLoading ? (
     <Loader />
